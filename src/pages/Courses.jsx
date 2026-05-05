@@ -3,7 +3,9 @@ import CourseCard from "../components/CourseCard";
 import SearchBar from "../Components/SearchBar";
 import FilterDropdown from "../Components/FilterDropdown";
 import { getCourses } from "../services/courseService";
-
+import Loader from "../components/ui/Loader";
+import ErrorState from "../components/ui/ErrorState";
+import EmptyState from "../components/ui/EmptyState";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -12,7 +14,6 @@ export default function Courses() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterUser, setFilterUser] = useState("all");
-
 
   useEffect(() => {
     getCourses()
@@ -37,34 +38,28 @@ export default function Courses() {
     return matchesSearch && matchesFilter;
   });
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (error) return <p className="text-center mt-10 text-red-500">Error loading data</p>;
+  if (loading) return <Loader />;
+  if (error) return <ErrorState message="Error loading courses" />;
 
   return (
-    <div className="px-6">
+    <div className="px-6 dark:bg-gray-900 min-h-screen py-10">
 
-      <h1 className="text-3xl font-bold mb-6 text-center">
+      <h1 className="text-3xl font-bold mb-6 text-center dark:text-white">
         Courses
       </h1>
 
-      {/* 🔍 Search + Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <SearchBar
-            value={searchTerm}
-            onChange={setSearchTerm}
-          />
+      {/* Search + Filter */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
-          <FilterDropdown
-            value={filterUser}
-            onChange={setFilterUser}
-          />
-        </div>
+        <FilterDropdown value={filterUser} onChange={setFilterUser} />
+      </div>
 
-      {/* 🧾 Courses */}
+      {/* Courses */}
       {filteredCourses.length === 0 ? (
-        <p className="text-center text-gray-500">No results found</p>
+        <EmptyState message="No courses found" />
       ) : (
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 p-4">
           {filteredCourses.map(course => (
             <CourseCard key={course.id} course={course} />
           ))}

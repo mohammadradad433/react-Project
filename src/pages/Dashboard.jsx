@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import CourseList from "../components/CourseList";
-import CourseModal from "../components/CourseModal";
 import { getCourses, saveCourses } from "../services/dashboardService";
-
+import Modal from "../Components/Modal";
+import Button from "../Components/ui/Button";
+import Input from "../Components/ui/Input";
 export default function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [title, setTitle] = useState("");
@@ -54,19 +55,16 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="px-6">
+    <div className="px-6 min-h-screen bg-gray-100 dark:bg-gray-950">
 
       <h1 className="text-3xl font-bold mb-6 text-center">
         Dashboard
       </h1>
 
       <div className="text-center mb-6">
-        <button
-          onClick={openAddModal}
-          className="bg-purple-600 text-white px-6 py-2 rounded"
-        >
+        <Button variant="primary" onClick={openAddModal}>
           Add Course
-        </button>
+        </Button>
       </div>
 
       <CourseList
@@ -75,14 +73,33 @@ export default function Dashboard() {
         onDelete={deleteCourse}
       />
 
-      <CourseModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSave}
-        title={title}
-        setTitle={setTitle}
-        editingCourse={editingCourse}
+    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+
+      <h2 className="text-xl font-bold mb-4">
+        {editingCourse ? "Edit Course" : "Add Course"}
+      </h2>
+
+      <Input
+        label="Course Title"
+        name="title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Enter course title"
       />
+
+      <div className="flex justify-end gap-3">
+
+        <Button variant="primary" onClick={() => setIsModalOpen(false)}>
+          cancel
+        </Button>
+
+        <Button variant="primary" onClick={handleSave}>
+          Save
+        </Button>
+
+      </div>
+
+    </Modal>
 
     </div>
   );

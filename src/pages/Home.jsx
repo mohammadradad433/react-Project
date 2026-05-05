@@ -2,24 +2,12 @@ import FeatureCard from "../Components/FeatureCard";
 import TestimonialCard from "../Components/TestimonialCard";
 import PricingCard from "../Components/PricingCard";
 import { Link } from "react-router-dom";
+import HeroSection from "../Components/HeroSection";
+import Button from "../Components/ui/Button";
 export default function Home() {
   return (
     <>
-    <div className="flex flex-col items-center justify-center text-center min-h-[70vh] gap-6 px-4">
-
-      <h1 className="text-4xl md:text-6xl font-bold text-gray-800">
-        Learn & Manage Courses Easily
-      </h1>
-
-      <p className="text-gray-500 max-w-xl">
-        A modern SaaS platform for managing educational content and dashboards.
-      </p>
-
-      <button className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700">
-        Get Started
-      </button>
-
-    </div>
+    <HeroSection />
     {/*// Features Section*/}
 
   <section className="px-6 mb-24">
@@ -114,9 +102,9 @@ export default function Home() {
 
       <div className="flex justify-center gap-4">
 
-        <Link to="/courses" className="bg-white text-purple-600 px-6 py-3 rounded hover:bg-gray-100 font-semibold">
+        <Button as="link" to="/courses" variant="ghost">
           Browse Courses
-        </Link>
+        </Button>
 
       </div>
 
